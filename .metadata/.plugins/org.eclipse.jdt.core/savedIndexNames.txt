@@ -1,0 +1,5 @@
+INDEX VERSION 1.131+C:\Users\Jarkko\Ohjelmointi2Tehtava7\.metadata\.plugins\org.eclipse.jdt.core
+3346039650.index
+1744381485.index
+1432669214.index
+374088388.index

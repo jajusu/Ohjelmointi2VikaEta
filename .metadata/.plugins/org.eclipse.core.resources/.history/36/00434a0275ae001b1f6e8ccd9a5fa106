@@ -1,0 +1,86 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/tyylit.css">
+<title>Asiakaslista</title>
+
+</head>
+<body onkeydown="tutkiKey(event)">
+<a href="lisaa.jsp">Lisää uusi asiakas</a><br><br>
+<table id="listaus">
+	<thead>	
+		<tr>
+			<th class="oikealle">Hakusana:</th>
+			<th colspan="2"><input type="text" id="hakusana"></th>
+			<th><input type="button" value="Hae" id="hakunappi" onclick="haeTiedot()"></th>
+			<th></th>
+			<th></th>
+		</tr>			
+		<tr>
+			<th>Etunimi</th>
+			<th>Sukunimi</th>
+			<th>Puhelin</th>
+			<th>Sähköposti</th>		
+			<th></th>
+			<th></th>				
+		</tr>
+	</thead>
+	<tbody>
+	</tbody>
+</table>
+<script>
+haeTiedot();	
+document.getElementById("hakusana").focus();//viedään kursori hakusana-kenttään sivun latauksen yhteydessä
+
+function tutkiKey(event){
+	if(event.keyCode==13){//Enter
+		haeTiedot();
+	}		
+}
+
+function haeAsiakkaat(){
+	document.getElementById("tbody").innerHTML = "";
+	fetch("asiakkaat/" + document.getElementById("hakusana").value,{//Lähetetään kutsu backendiin
+	      method: 'GET'
+	    })
+	.then(function (response) {//Odotetaan vastausta ja muutetaan JSON-vastaus objektiksi
+		return response.json()	
+	})
+	.then(function (responseJson) {//Otetaan vastaan objekti responseJson-parametrissä		
+		var asiakkaat = responseJson.asiakkaat;	 
+        var htmlStr="";
+        	htmlStr+="<tr>";
+        	htmlStr+="<td>"+field.etunimi+"</td>";
+        	htmlStr+="<td>"+field.sukunimi+"</td>";
+        	htmlStr+="<td>"+field.puhelin+"</td>";
+        	htmlStr+="<td>"+field.sposti+"</td>";
+        	htmlStr+="<td><a href='muokkaa.jsp?asiakas_id="+field.asiakas_id+"'>Muuta</a></td>"; 
+        	htmlStr+="<td><span class='poista' onclick=poista('"+field.asiakas_id+"')>Poista</span></td>";
+        	console.log(field.asiakas_id)
+        	htmlStr+="</tr>";
+        	$("#listaus tbody").append(htmlStr);
+        });	
+    });
+}
+
+function poista(asiakas_id){
+	if(confirm("Poista asiakas " + asiakas_id +"?")){
+		$.ajax({url:"asiakkaat/"+asiakas_id, type:"DELETE", dataType:"json", success:function(result) { //result on joko {"response:1"} tai {"response:0"}
+	        if(result.response==0){
+	        	$("#ilmo").html("Asiakkaan poisto epäonnistui.");
+	        }else if(result.response==1){
+	        	$("#rivi_"+asiakas_id).css("background-color", "red"); //Värjätään poistetun asiakkaan rivi
+	        	alert("Asiakas id:llä " + asiakas_id +" poistettu.");
+				haeAsiakkaat();        	
+			}
+	    }});
+	}
+}
+
+</script>
+</body>
+</html>

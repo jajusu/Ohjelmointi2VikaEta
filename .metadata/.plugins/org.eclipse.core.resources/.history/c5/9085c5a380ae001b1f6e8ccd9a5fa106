@@ -1,0 +1,89 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<script src="scripts/main.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/tyylit.css">
+<title>Lisää uusi asiakas</title>
+<style>
+body{
+	width:100%;
+	max-width:300px;
+}
+input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+div {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+.error {
+	color: red;
+}
+</style>
+</head>
+
+<body onkeydown="tutkiKey(event)">
+
+<a href="listaa.jsp">Takaisin</a><br><br>
+
+<form id="tiedot">
+	Etunimi: <input type="text" id="etunimi" name="etunimi"><br><br>
+	Sukunimi: <input type="text" id="sukunimi"name="sukunimi"><br><br>
+    Puhelin: <input type="text" id="puhelin"name="puhelin"><br><br>
+	Sähköposti: <input type="text" id="sposti" name="sposti"><br><br>
+	<input type="submit" id="tallenna" value="Lisää" onclick="lisaaTiedot()"><br>
+</form>
+<span id="ilmo"></span>
+</body>
+<script>
+function tutkiKey(event){
+	if(event.keyCode==13){//Enter
+		lisaaTiedot();
+	}
+}
+document.getElementById("etunimi").focus();//viedään kursori etunimi-kenttään sivun latauksen yhteydessä
+
+//funktio tietojen lisäämistä varten. Kutsutaan backin POST-metodia ja välitetään kutsun mukana uudet tiedot json-stringinä.
+//POST /autot/
+function lisaaTiedot(){	
+	var formJsonStr = formDataJsonStr($("#tiedot").serializeArray()); //muutetaan lomakkeen tiedot json-stringiksi
+	$.ajax({url:"asiakkaat", data:formJsonStr, type:"POST", dataType:"json", success:function(result) { //result on joko {"response:1"} tai {"response:0"}       
+		if(result.response==0){
+      	$("#ilmo").html("Asiakkaan lisääminen epäonnistui.");
+      }else if(result.response==1){			
+      	$("#ilmo").html("Asiakkaan lisääminen onnistui.");
+      	$("#etunimi", "#sukunimi", "#puhelin", "#sposti").val("");
+		}
+  }});	
+}
+</script>
+</html>
