@@ -4,8 +4,9 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<script src="scripts/main.js"></script>
 <link rel="stylesheet" type="text/css" href="css/tyylit.css">
+<script src="scripts/main.js"></script>
+
 <title>Muokkaa asiakasta</title>
 <style>
 body{
@@ -103,32 +104,7 @@ function vieTiedot(){
 
 //jostain syystä ei löydä scriptsistä main.js-fileä
 
-function requestURLParam(sParam){
-    var sPageURL = window.location.search.substring(1);
-    var sURLVariables = sPageURL.split("&");
-    for (var i = 0; i < sURLVariables.length; i++){
-        var sParameterName = sURLVariables[i].split("=");
-        if(sParameterName[0] == sParam){
-            return sParameterName[1];
-        }
-    }
-}
-function formDataToJSON(data){
-	var returnStr="{";
-	for(var i=0; i<data.length; i++){		
-		returnStr+="\"" +data[i].name + "\":\"" + data[i].value + "\",";
-	}	
-	returnStr = returnStr.substring(0, returnStr.length - 1); //poistetaan viimeinen pilkku
-	returnStr+="}";
-	return returnStr;
-}	
 
-function siivoa(teksti){
-	teksti=teksti.replace("<","");
-	teksti=teksti.replace(";","");
-	teksti=teksti.replace("'","''");
-	return teksti;
-}
 
 </script>
 </html>

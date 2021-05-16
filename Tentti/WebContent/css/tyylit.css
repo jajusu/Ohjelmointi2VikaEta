@@ -1,0 +1,35 @@
+#listaa{
+	max-width:60%;
+	padding-left:10px
+}
+
+#lisaa{
+	max-width:15%;
+	padding-left:10px
+}
+
+#muokkaa{
+	max-width:15%;
+	padding-left:10px
+}
+
+.error{
+	color:red
+}
+#wrapper{
+	display: flex;
+  	flex-wrap: wrap;
+}
+#hae{
+	flex: 50%;
+	margin: auto;
+	padding: 10px;
+	text-align: center;
+}
+#linkki{
+	margin: auto;
+	flex: 25%;
+}
+table{
+	padding-left:10px
+}

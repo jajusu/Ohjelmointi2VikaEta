@@ -4,8 +4,8 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<script src="scripts/main.js"></script>
 <link rel="stylesheet" type="text/css" href="css/tyylit.css">
+<script src="scripts/main.js"></script>
 <title>Lisää uusi asiakas</title>
 <style>
 body{
